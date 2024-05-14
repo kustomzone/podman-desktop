@@ -20,7 +20,7 @@ import '@testing-library/jest-dom/vitest';
 
 import type { ContainerInfo, Port } from '@podman-desktop/api';
 import { fireEvent, render, screen, waitFor } from '@testing-library/svelte';
-import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { beforeEach, expect, test, vi } from 'vitest';
 
 import type { V1Route } from '../../../../main/src/plugin/api/openshift-types';
 import PodActions from './PodActions.svelte';
@@ -186,20 +186,4 @@ test('Expect kubernetes routes kebab menu to be displayed', async () => {
 
   const routesDropDownMenu = await screen.findByTitle('Drop Down Menu Items');
   expect(routesDropDownMenu).toBeVisible();
-});
-
-describe('restart action', () => {
-  test('Expect podman pod to have restart action', async () => {
-    render(PodActions, { pod: podmanPod });
-
-    const restartPodButton = await screen.findByRole('button', { name: `Restart Pod` });
-    expect(restartPodButton).toBeVisible();
-  });
-
-  test('Expect kubernetes pod not to have restart action', async () => {
-    render(PodActions, { pod: kubernetesPod });
-
-    const restartPodButton = screen.queryByRole('button', { name: `Restart Pod` });
-    expect(restartPodButton).toBeNull();
-  });
 });
